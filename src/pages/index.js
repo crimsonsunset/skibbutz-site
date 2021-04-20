@@ -3,7 +3,7 @@ import React from "react"
 import { Container, Row, Col } from 'reactstrap'
 import Link from '../components/link'
 import Layout from "../components/layout"
-import SEO from "../components/seo"
+import Seo from "../components/seo"
 import { FaSkiing } from 'react-icons/fa'
 import {  GiHouse} from 'react-icons/gi'
 // import {  GiHouse, GiPartyPopper } from 'react-icons/gi'
@@ -33,9 +33,10 @@ let Service = ({title, Icon}) => (
   </Col>
 )
 
+
 let Index = () => (
   <Layout>
-    <SEO title="Home" />
+    <Seo title="Home" />
     <Slider/>
     <Container className="pt-4">
       <div className="text-center">

@@ -2,10 +2,10 @@ import React from 'react'
 import {Container, Row, Col} from 'reactstrap'
 import { FaCode } from 'react-icons/fa'
 import { StaticQuery, graphql } from "gatsby"
-import Img from 'gatsby-image/withIEPolyfill'
+import { GatsbyImage } from "gatsby-plugin-image";
 import styled from 'styled-components'
 
-let StyledImg = styled(props => <Img {...props}/>)`
+let StyledImg = styled(props => <GatsbyImage {...props} />)`
   perspective: 1500px;
   perspective-origin: left center;
   overflow: visible !important;
@@ -43,7 +43,7 @@ let Benefits = ({data}) => (
         <Benefit title="Bootstrap/Reactstrap" content="Responsive site built on Bootstrap"/>
       </Col>
       <Col md="6">
-        <StyledImg fluid={data.file.childImageSharp.fluid} objectFit="contain" objectPosition="50% 50%"/>
+        <StyledImg fluid={data.file.childImageSharp.gatsbyImageData} objectFit="contain" objectPosition="50% 50%"/>
       </Col>
     </Row>
   </Container>
@@ -51,18 +51,15 @@ let Benefits = ({data}) => (
 
 const BenefitsQuery = () => (
   <StaticQuery
-    query={graphql`
-      query BenefitsQuery {
-        file(relativePath: {eq: "sample.png"}) {
-          id
-          childImageSharp {
-            fluid {
-              ...GatsbyImageSharpFluid_withWebp
-            }
-          }
-        }
-      }
-    `}
+    query={graphql`query BenefitsQuery {
+  file(relativePath: {eq: "sample.png"}) {
+    id
+    childImageSharp {
+      gatsbyImageData(layout: FULL_WIDTH)
+    }
+  }
+}
+`}
     render={data => (
       <Benefits data={data}/>
     )}
