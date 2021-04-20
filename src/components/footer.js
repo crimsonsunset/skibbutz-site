@@ -8,6 +8,7 @@ const FooterStyling = styled.footer`
   background: #f8f9fa;
   margin: auto;
   text-align: center;
+  padding-top: 2rem;
   
   .footer__content{
     margin: 0 auto;

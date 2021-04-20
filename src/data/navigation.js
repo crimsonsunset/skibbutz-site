@@ -4,7 +4,7 @@ export const navigation = [
     "url": "/"
   },
   {
-    "name": "Members Login",
+    "name": "Login",
     "url": "/members"
   },
   // {
