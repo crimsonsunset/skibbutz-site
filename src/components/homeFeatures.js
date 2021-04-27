@@ -49,27 +49,73 @@ let HomeFeatures = () => {
             gatsbyImageData(layout: CONSTRAINED)
         }
     }
+    alon: file(relativePath: { eq: "alon.jpg" }) {
+        childImageSharp {
+            gatsbyImageData(layout: CONSTRAINED)
+        }
+    }
+    graham: file(relativePath: { eq: "graham.jpg" }) {
+        childImageSharp {
+            gatsbyImageData(layout: CONSTRAINED)
+        }
+    }
+    jess: file(relativePath: { eq: "jess.jpg" }) {
+        childImageSharp {
+            gatsbyImageData(layout: CONSTRAINED)
+        }
+    }
+    joe: file(relativePath: { eq: "joe.jpg" }) {
+        childImageSharp {
+            gatsbyImageData(layout: CONSTRAINED)
+        }
+    }
+    justin: file(relativePath: { eq: "justin.jpg" }) {
+        childImageSharp {
+            gatsbyImageData(layout: CONSTRAINED)
+        }
+    }
+    seneca: file(relativePath: { eq: "seneca.jpg" }) {
+        childImageSharp {
+            gatsbyImageData(layout: CONSTRAINED)
+        }
+    }
   }
   `)
-
   return (
     <Container className="py-5">
       <h2 className="text-center mb-4">Skibbutz Dwellers</h2>
       <Row>
         <Feature
-          title="Lorem Ipsum"
-          description="Eu lobortis elementum nibh tellus molestie nunc non blandit massa. Sit amet consectetur adipiscing elit duis."
-          img={data.slide1.childImageSharp.gatsbyImageData}
+          title="Joe"
+          description="Joe likes making sure the house is stocked with snacks"
+          img={data.joe.childImageSharp.gatsbyImageData}
         />
         <Feature
-          title="Social Media"
-          description="Eu lobortis elementum nibh tellus molestie nunc non blandit massa. Sit amet consectetur adipiscing elit duis."
-          img={data.slide2.childImageSharp.gatsbyImageData}
+          title="Jess"
+          description="Jess likes fuzzy things"
+          img={data.jess.childImageSharp.gatsbyImageData}
         />
         <Feature
-          title="Digital Technology"
-          description="Eu lobortis elementum nibh tellus molestie nunc non blandit massa. Sit amet consectetur adipiscing elit duis."
-          img={data.slide3.childImageSharp.gatsbyImageData}
+          title="Graham"
+          description="Graham really only cares about snacks"
+          img={data.graham.childImageSharp.gatsbyImageData}
+        />
+      </Row>
+      <Row>
+        <Feature
+          title="Justin"
+          description="Justin likes gear"
+          img={data.justin.childImageSharp.gatsbyImageData}
+        />
+        <Feature
+          title="Seneca"
+          description="Seneca likes hitting 40mph"
+          img={data.seneca.childImageSharp.gatsbyImageData}
+        />
+        <Feature
+          title="Alon"
+          description="Alon likes red white cables"
+          img={data.alon.childImageSharp.gatsbyImageData}
         />
       </Row>
     </Container>

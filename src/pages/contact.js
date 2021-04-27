@@ -18,7 +18,7 @@ let Cirle = Styled.div`
 `
 
 let ContactItem = ({text, type, Icon, href}) => (
-  <Col xs={6} lg={3} className="d-flex flex-column align-items-center" style={{wordBreak: 'break-word'}}>
+  <Col xs={6} lg={6} className="d-flex flex-column align-items-center" style={{wordBreak: 'break-word'}}>
     <Cirle className="h-4-rem w-4-rem bg-primary-faded my-3 absolute-center rounded-circle">
       <Icon size={30}/>
     </Cirle>
@@ -40,8 +40,8 @@ let Contact = ({data}) => {
         <Row className="py-5">
           <ContactItem text={address} type="Address" Icon={FaMapMarkerAlt}/>
           <ContactItem text={email} href={`mailto:${email}`} type="Email" Icon={FaEnvelope}/>
-          <ContactItem text={phone} href={`tel:${phone}`} type="Phone" Icon={FaPhone}/>
-          <ContactItem text={fax} type="Fax" Icon={FaFax}/>
+          {/*<ContactItem text={phone} href={`tel:${phone}`} type="Phone" Icon={FaPhone}/>*/}
+          {/*<ContactItem text={fax} type="Fax" Icon={FaFax}/>*/}
         </Row>
         <hr/>
         <Row className="py-5">

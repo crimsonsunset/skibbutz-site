@@ -7,6 +7,7 @@ import '../../node_modules/slick-carousel/slick/slick.css';
 import '../../node_modules/slick-carousel/slick/slick-theme.css';
 
 import header from '../assets/images/header.jpg'
+import { mediaQueries } from "../assets/stylesheets/theme"
 
 // const SliderContainer = styled.div`
 //   background: linear-gradient(210deg, #943cff 0%, #dd45d3 40.13%, #fc9a57 90%);
@@ -28,9 +29,22 @@ const ImageSlide = styled.div`
   //padding: 10rem 0;
   //clip-path: polygon(0 0, 100% 0, 100% 85%, 0% 100%);
 
-  @media (max-width: 768px) {
-    border: 11px solid red;
-    background: navajowhite;
+  ${mediaQueries[0]}{
+    //border: 11px solid red;
+    background-size: contain;
+    height: auto;
+    background-position: 30% 5%;
+    //background: navajowhite;
+  }
+  
+  
+  ${mediaQueries[1]}{
+    background-position: 1% 5%;
+  }
+  
+  ${mediaQueries[4]}{
+    //border: 11px solid red;
+    background-position: 50% 7%;
   }
   
 `;

@@ -9,7 +9,7 @@ module.exports = {
     siteUrl: `https://skibbutz.com/`,
     phone: '1800123456',
     fax: '180012345',
-    address: '123 fake street',
+    address: 'Keystone, CO',
     email: 'contact@skibbutz.com'
 
   },
