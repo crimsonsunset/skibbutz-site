@@ -1,3 +1,7 @@
+require("dotenv").config({
+  path: `.env.${process.env.NODE_ENV}`,
+});
+
 let facebook_pixel = ''
 let gtm = '1234'
 
@@ -40,6 +44,18 @@ module.exports = {
       resolve: `gatsby-plugin-manifest`,
       options: {
         icon: './src/assets/images/logo.png'
+      },
+    },
+    {
+      resolve: "gatsby-theme-auth0",
+      options: {
+        domain: process.env.AUTH0_DOMAIN,
+        clientID: process.env.AUTH0_CLIENT_ID,
+        redirectUri: process.env.AUTH0_CALLBACK_URL,
+        // audience: process.env.AUTH0_AUDIENCE, // Optional
+        // responseType: 'token id_token'
+        // scope: 'openid profile email', // Optional
+        // callbackPath: "/auth/callback", // Optional
       },
     },
     `gatsby-plugin-image`,
