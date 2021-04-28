@@ -15,6 +15,7 @@ const FooterStyling = styled.footer`
     display: flex;
     justify-content: space-between;
     max-width: 960px;
+    padding: 30px;
   }
   
   a, a:hover {
@@ -54,11 +55,15 @@ let Footer = () => (
   <FooterStyling>
     <div className='footer__content'>
       {foot.footer.map(item => (
-        <div className="footer__section">
+        <div
+          key={item.name}
+          className="footer__section">
           <h5>{item.name}</h5>
           <ul>
             {item.dropdownItems.map(dropdownItem => (
-              <FooterLink to={dropdownItem.url}>{dropdownItem.name}</FooterLink>
+              <FooterLink
+                key={dropdownItem.name}
+                to={dropdownItem.url}>{dropdownItem.name}</FooterLink>
             ))}
           </ul>
         </div>
