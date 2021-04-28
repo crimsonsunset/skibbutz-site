@@ -1,5 +1,4 @@
 import React from "react"
-import PageTemplate from "../components/pageTemplate"
 import { AuthService, useAuth } from "gatsby-theme-auth0"
 
 let Callback = () => {
@@ -11,9 +10,9 @@ let Callback = () => {
   }, []);
 
   return (
-    <PageTemplate title="Callback">
+    <div>
       Callback. Redirecting
-    </PageTemplate>
+    </div>
   )
 }
 
