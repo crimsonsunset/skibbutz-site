@@ -6,8 +6,8 @@ import styled from "styled-components"
 import '@nm/slick-carousel/slick/slick.css';
 import '@nm/slick-carousel/slick/slick-theme.css';
 
-import header from '../assets/images/header.jpg'
-import { mediaQueries } from "../assets/stylesheets/theme"
+import header from '@img/header.jpg'
+import { mediaQueries } from "@styles/theme"
 
 // const SliderContainer = styled.div`
 //   background: linear-gradient(210deg, #943cff 0%, #dd45d3 40.13%, #fc9a57 90%);
