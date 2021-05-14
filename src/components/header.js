@@ -7,9 +7,9 @@ import {
 } from "reactstrap"
 import Link from "./link"
 import Navigation from "reactstrap-json-nav"
-import * as nav from "../data/navigation.js"
-import logo from "../assets/images/logo.png"
+import logo from "@img/logo.png"
 import styled from "styled-components"
+import { getNavigation } from "@data/navigation.js"
 
 let StyledNavbar = styled(props => <Navbar {...props} />)`
   position: sticky;
@@ -32,7 +32,7 @@ const Header = (props) => {
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Navigation
-            json={nav.navigation}
+            json={getNavigation()}
             link={Link}
             activeClassName="active"
           />

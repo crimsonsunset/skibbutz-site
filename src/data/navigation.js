@@ -1,11 +1,13 @@
-export const navigation = [
+const store = require("store")
+
+const navigation = [
   {
     "name": "Home",
-    "url": "/"
+    "url": "/",
   },
   {
     "name": "Login",
-    "url": "/login"
+    "url": "/login",
   },
   // {
   //   "name": "Contact",
@@ -13,3 +15,13 @@ export const navigation = [
   // }
 ]
 
+export function getNavigation() {
+  const profile = store.get("user")
+  if (profile) {
+    navigation[1] = {
+      "name": "Profile",
+      "url": "/profile",
+    }
+  }
+  return navigation
+}

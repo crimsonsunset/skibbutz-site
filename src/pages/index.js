@@ -1,22 +1,22 @@
 import React from "react"
 
 import { Container, Row, Col } from 'reactstrap'
-import Link from '../components/link'
-import Layout from "../components/layout"
-import Seo from "../components/seo"
+import Link from '@components//link'
+import Layout from "@components//layout"
+import Seo from "@components//seo"
 import { FaSkiing } from 'react-icons/fa'
 import {  GiHouse} from 'react-icons/gi'
 // import {  GiHouse, GiPartyPopper } from 'react-icons/gi'
 import {  MdComputer } from 'react-icons/md'
-import Slider from '../components/slider'
-import Box from '../components/box'
+import Slider from '@components//slider'
+import Box from '@components//box'
 import styled from 'styled-components'
-import HomeFeatures from '../components/homeFeatures'
+import HomeFeatures from '@components//homeFeatures'
 
-// import Button from '../components/btn'
-// import Hr from '../components/hr'
-// import Benefits from '../components/benefits'
-// import Form from '../components/form'
+// import Button from '@components//btn'
+// import Hr from '@components//hr'
+// import Benefits from '@components//benefits'
+// import Form from '@components//form'
 
 let StyledBackground = styled.div`
   background: linear-gradient(to bottom,#f9fbfd 0,#fff 100%);

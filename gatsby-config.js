@@ -1,6 +1,7 @@
 require("dotenv").config({
   path: `.env.${process.env.NODE_ENV}`,
 });
+const path = require('path');
 
 let facebook_pixel = ''
 let gtm = '1234'
@@ -18,6 +19,28 @@ module.exports = {
 
   },
   plugins: [
+    {
+      resolve: `gatsby-plugin-alias-imports`,
+      options: {
+        alias: {
+          '@components': path.resolve(__dirname, 'src/components'),
+          '@config': path.resolve(__dirname, 'src/config'),
+          '@data': path.resolve(__dirname, 'src/data'),
+          '@content': path.resolve(__dirname, 'src/content'),
+          '@img': path.resolve(__dirname, 'src/assets/images'),
+          '@fonts': path.resolve(__dirname, 'src/assets/fonts'),
+          // '@favicon': path.resolve(__dirname, 'src/content/img/favicon'),
+          // '@layouts': path.resolve(__dirname, 'src/layouts'),
+          '@pages': path.resolve(__dirname, 'src/pages'),
+          '@styles': path.resolve(__dirname, 'src/styles'),
+          // '@styles-components': path.resolve(__dirname, 'src/styles/components'),
+          // '@styles-pages': path.resolve(__dirname, 'src/styles/pages'),
+          '@util': path.resolve(__dirname, 'src/util'),
+          '@root': path.resolve(__dirname, 'src/'),
+          '@nm': path.resolve(__dirname, '/node_modules'),
+        }
+      }
+    },
     `gatsby-plugin-react-helmet`,
     `gatsby-plugin-sass`,
     {

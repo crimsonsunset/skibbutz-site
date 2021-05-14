@@ -12,9 +12,9 @@ import { useStaticQuery, graphql } from "gatsby"
 import Header from "./header"
 import Footer from "./footer"
 import SubFooter from "./subFooter"
-import "../assets/stylesheets/layout.scss"
+import "@styles/layout.scss"
 import {ThemeProvider} from 'styled-components'
-import theme from '../assets/stylesheets/theme'
+import theme from '@styles/theme'
 // import Banner from './banner'
 
 const Layout = ({ children }) => {

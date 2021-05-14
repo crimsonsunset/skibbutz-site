@@ -1,35 +1,26 @@
 import React from "react"
-import PageTemplate from "../components/pageTemplate"
 import { AuthService, useAuth } from "gatsby-theme-auth0"
-const store = require('store')
+import { navigate } from "gatsby" //import navigate from gatsby
+const store = require("store")
 
 let Login = () => {
 
   const possProf = AuthService.getUserProfile()
-  if(possProf){
-    store.set('user', possProf);
+  if (possProf) {
+    store.set("user", possProf)
   }
 
-  const { isLoggedIn } = useAuth();
-  const profile = store.get('user');
+  const { isLoggedIn } = useAuth()
+  // const profile = store.get('user');
+
+  if (!isLoggedIn) {
+    AuthService.login()
+  } else {
+    navigate('/profile'); //navigate to edit page
+  }
 
   return (
-    <PageTemplate title="Login">
-      <div>
-        {profile && <p>Hello {profile.name}</p>}
-
-        {isLoggedIn ? (
-          <button onClick={
-            (e, i) => {
-              AuthService.logout()
-              store.remove('user')
-            }
-          }>Logout</button>
-        ) : (
-           <button onClick={AuthService.login}>Login</button>
-         )}
-      </div>
-    </PageTemplate>
+    <div/>
   )
 }
 
