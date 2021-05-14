@@ -7,7 +7,7 @@ const store = require("store")
 let Profile = () => {
   const profile = getProfile();
   return (
-    <PageTemplate title={`User Profile: ${profile.name}`}>
+    <PageTemplate title={`User Profile: ${profile?.name}`}>
 
 
       <button onClick={
