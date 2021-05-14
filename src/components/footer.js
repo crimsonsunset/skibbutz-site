@@ -2,7 +2,7 @@ import React from "react"
 import { FaFacebookSquare, FaInstagram } from "react-icons/fa"
 import Link from "./link"
 import styled from "styled-components"
-import * as foot from "../data/footer.js"
+import * as foot from "@data/footer.js"
 
 const FooterStyling = styled.footer`
   background: #f8f9fa;

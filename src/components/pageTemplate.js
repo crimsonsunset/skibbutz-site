@@ -1,7 +1,7 @@
 import React from 'react'
 import { Row, Col, Container } from 'reactstrap'
-import Layout from '../components/layout'
-import PageTitle from '../components/page-title'
+import Layout from '@components//layout'
+import PageTitle from '@components//page-title'
 
 let PageTemplate = ({title, children}) => (
   <Layout>
@@ -17,3 +17,4 @@ let PageTemplate = ({title, children}) => (
 )
 
 export default PageTemplate
+

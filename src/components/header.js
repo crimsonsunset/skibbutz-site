@@ -9,7 +9,7 @@ import Link from "./link"
 import Navigation from "reactstrap-json-nav"
 import logo from "../assets/images/logo.png"
 import styled from "styled-components"
-import { getNavigation } from "../data/navigation.js"
+import { getNavigation } from "@data/navigation.js"
 
 let StyledNavbar = styled(props => <Navbar {...props} />)`
   position: sticky;

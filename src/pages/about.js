@@ -1,5 +1,5 @@
 import React from 'react'
-import PageTemplate from '../components/pageTemplate'
+import PageTemplate from '@components//pageTemplate'
 
 let About = () => (
   <PageTemplate title="About Us">

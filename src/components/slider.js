@@ -3,8 +3,8 @@ import Slider from "react-slick";
 import { useStaticQuery, graphql } from "gatsby"
 import styled from "styled-components"
 
-import '../../node_modules/slick-carousel/slick/slick.css';
-import '../../node_modules/slick-carousel/slick/slick-theme.css';
+import '@nm/slick-carousel/slick/slick.css';
+import '@nm/slick-carousel/slick/slick-theme.css';
 
 import header from '../assets/images/header.jpg'
 import { mediaQueries } from "../assets/stylesheets/theme"
