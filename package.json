@@ -27,6 +27,7 @@
     "gatsby-source-filesystem": "^3.4.0",
     "gatsby-theme-auth0": "^1.1.1",
     "gatsby-transformer-sharp": "^3.4.0",
+    "lodash": "^4.17.21",
     "node-sass": "^5.0.0",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
