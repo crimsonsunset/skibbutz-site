@@ -70,8 +70,8 @@ let Footer = () => (
       ))}
       <div className="footer__section">
         <h5>Let's Get Social!</h5>
-        <SocialLink Icon={FaFacebookSquare} link='https://facebook.com'/>
-        <SocialLink Icon={FaInstagram} link='https://instagram.com' />
+        {/*<SocialLink Icon={FaFacebookSquare} link='https://facebook.com'/>*/}
+        <SocialLink Icon={FaInstagram} link='https://www.instagram.com/droppedpindiaries/' />
       </div>
     </div>
   </FooterStyling>
