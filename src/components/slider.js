@@ -1,6 +1,6 @@
 import React from "react";
-import Slider from "react-slick";
-import { useStaticQuery, graphql } from "gatsby"
+// import Slider from "react-slick";
+// import { useStaticQuery, graphql } from "gatsby"
 import styled from "styled-components"
 
 import '@nm/slick-carousel/slick/slick.css';
@@ -30,7 +30,7 @@ const ImageSlide = styled.div`
   //clip-path: polygon(0 0, 100% 0, 100% 85%, 0% 100%);
 
   ${mediaQueries[0]}{
-    //border: 11px solid red;
+    //border: 2px solid red;
     background-size: contain;
     height: auto;
     background-position: 30% 5%;
@@ -39,12 +39,25 @@ const ImageSlide = styled.div`
   
   
   ${mediaQueries[1]}{
+    //border: 2px solid blue !important;
     background-position: 1% 5%;
   }
   
+  ${mediaQueries[2]}{
+    //border: 2px solid orange !important;
+    background-position: 50% 13%;
+  }
+  ${mediaQueries[3]}{
+    //border: 2px solid purple !important;
+    background-position: 50% 13%;
+  }
   ${mediaQueries[4]}{
-    //border: 11px solid red;
-    background-position: 50% 7%;
+    //border: 2px solid green !important;
+    background-position: 50% 13% !important;
+  }
+  ${mediaQueries[5]}{
+    //border: 3px solid black !important;
+    background-position: 50% 22%;
   }
   
 `;
@@ -59,22 +72,22 @@ let SlickSlider = () => {
     slidesToShow: 1,
     slidesToScroll: 1
   };
-  const sideMetadata = useStaticQuery(graphql`
-    query TitleQuery {
-      site {
-        siteMetadata {
-          title
-          author
-        }
-      }
-    }
-  `)
+  // const sideMetadata = useStaticQuery(graphql`
+  //   query TitleQuery {
+  //     site {
+  //       siteMetadata {
+  //         title
+  //         author
+  //       }
+  //     }
+  //   }
+  // `)
 
   // let {title, author} = sideMetadata.site.siteMetadata
-  let {title} = sideMetadata.site.siteMetadata
+  // let {title} = sideMetadata.site.siteMetadata
   return (
     // <SliderContainer>
-      <Slider {...settings}>
+
         <ImageSlide
         >
           <div className="text-center">
@@ -82,19 +95,7 @@ let SlickSlider = () => {
             {/*<p>By {author}</p>*/}
           </div>
         </ImageSlide>
-        <div>
-          <div className="text-center">
-            <h1>{title}</h1>
-            {/*<p>By {author}</p>*/}
-          </div>
-        </div>
-        <div>
-          <div className="text-center">
-            <h1>{title}</h1>
-            {/*<p>By {author}</p>*/}
-          </div>
-        </div>
-      </Slider>
+
     // </SliderContainer>
   )
 }

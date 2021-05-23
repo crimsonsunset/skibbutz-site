@@ -16,6 +16,15 @@ let StyledNavbar = styled(props => <Navbar {...props} />)`
   top: 0;
   z-index: 10;
   padding: 0px !important;
+  
+  .navbar-toggler{
+    margin-right: 0.75rem;
+  }
+  
+  .nav-item {
+    text-align: center;
+  }
+  
 `
 
 const Header = (props) => {
