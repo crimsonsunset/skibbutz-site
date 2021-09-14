@@ -5,6 +5,10 @@ const navigation = [
     "name": "Home",
     "url": "/",
   },
+  {
+    "name": "Tour",
+    "url": "/tour",
+  },
   // {
   //   "name": "Login",
   //   "url": "/login",
