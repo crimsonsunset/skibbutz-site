@@ -1,9 +1,8 @@
 import React, { Component, Fragment } from "react"
 import store from "store"
-import { bindAll,  } from "lodash"
+import { bindAll } from "lodash"
 import { graphql, StaticQuery } from "gatsby"
 import { BsFillPlayCircleFill } from "react-icons/bs"
-import { DragDropContext } from 'react-beautiful-dnd';
 
 import PageTemplate from "@components/pageTemplate"
 import {
@@ -37,18 +36,16 @@ class Soundboard extends Component {
   constructor(props) {
     super(props)
 
-    // this.state = {
-    //   isSnackbarOpen: false,
-    //   snackbarMessage: 'Browser location declined. Using location from your profile instead.',
-    //   snackbarSeverity: 'warning',
-    //   circle: undefined,
-    //   searchRadius: undefined,
-    //   mapInitDidComplete: false,
-    // };
+    this.soundRefs = {}
+
+    this.state = {
+      items: [],
+    }
 
     bindAll(this, [
       "renderSoundChips",
       "_playAudio",
+      "_addSound",
     ])
 
     // this.gMapRef = React.createRef();
@@ -62,8 +59,20 @@ class Soundboard extends Component {
   }
 
 
-  _playAudio(elem) {
-    elem?.current?.play()
+  _playAudio(name) {
+    this.soundRefs[name]?.current?.play()
+  }
+
+
+  _addSound(soundNode) {
+    // this._playAudio(soundNode.name)
+
+    this.setState({
+      items: [
+        ...this.state.items,
+        soundNode
+      ],
+    })
   }
 
   renderSoundChips(soundData) {
@@ -73,6 +82,8 @@ class Soundboard extends Component {
 
     return edges.map(({ node }, i) => {
       let currRef = React.createRef()
+      this.soundRefs[node.name] = currRef
+
       return (
         <Fragment
           key={i}
@@ -89,20 +100,19 @@ class Soundboard extends Component {
             outline
             color="primary"
             onClick={(e, i) => {
-              console.log(e,i)
+              this._addSound(node)
             }}
           >
             {node.name}
             <Badge
               color="secondary"
               onClick={(e, i) => {
-                this._playAudio(currRef)
+                this._playAudio(node.name)
               }}
             >
-              <BsFillPlayCircleFill/>
+              <BsFillPlayCircleFill />
             </Badge>
           </Button>
-
 
         </Fragment>
       )
@@ -131,12 +141,11 @@ class Soundboard extends Component {
           </CardBody>
         </Card>
 
-        <hr className='spacer'></hr>
+        <hr className="spacer"></hr>
 
 
         <DDList
-
-
+          items={this.state.items}
         >
 
         </DDList>
