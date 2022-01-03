@@ -3,13 +3,15 @@ import store from "store"
 import { bindAll,  } from "lodash"
 import { graphql, StaticQuery } from "gatsby"
 import { BsFillPlayCircleFill } from "react-icons/bs"
-
+import { DragDropContext } from 'react-beautiful-dnd';
 
 import PageTemplate from "@components/pageTemplate"
 import {
   Card, CardText, CardBody,
   CardTitle, CardSubtitle, Button, Badge, ListGroup, ListGroupItem,
 } from "reactstrap"
+
+import DDList from "@components/ddList"
 
 
 export const SOUNDS_QUERY = graphql`
@@ -130,6 +132,14 @@ class Soundboard extends Component {
         </Card>
 
         <hr className='spacer'></hr>
+
+
+        <DDList
+
+
+        >
+
+        </DDList>
 
         {/*<ListGroup*/}
         {/*  horizontal*/}
