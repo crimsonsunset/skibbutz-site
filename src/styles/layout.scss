@@ -1,7 +1,8 @@
 $gradient: linear-gradient(210deg,#943cff 0%,#dd45d3 40.13%,#fc9a57 90%);
 
-// Bootstrap Custom Variables here
+@import "node_modules/bootstrap/dist/css/bootstrap.min";
 
+// Bootstrap Custom Variables here
 @import "node_modules/bootstrap/scss/functions";
 @import "node_modules/bootstrap/scss/variables";
 @import "node_modules/bootstrap/scss/mixins";
@@ -44,7 +45,7 @@ $gradient: linear-gradient(210deg,#943cff 0%,#dd45d3 40.13%,#fc9a57 90%);
 /// Typography
 
 @font-face {
-  font-family: "HKGrotesk";
+  font-family: "HKGrotesk" !important;
   font-style: normal;
   font-weight: 300;
   src: url('@fonts/HKGrotesk-Bold.woff2') format("woff2"), url('@fonts/HKGrotesk-Bold.woff') format("woff");;
@@ -59,9 +60,13 @@ $gradient: linear-gradient(210deg,#943cff 0%,#dd45d3 40.13%,#fc9a57 90%);
   font-display: swap;
 }
 
-body {
+html, body, button {
   font-family: 'HKGrotesk', sans-serif;
-  overflow-x: hidden;
+  //overflow-x: hidden;
+}
+section {
+  font-family: 'HKGrotesk', sans-serif;
+  //overflow-x: hidden;
 }
 
 h1 {

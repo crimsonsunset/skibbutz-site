@@ -1,9 +1,9 @@
 let theme = {
   primary: "#007bff",
+  secondary: "#dd45d3",
 }
 
 export const breakpoints = [500, 768, 899, 1170, 1800, 2500]
-console.log('asds')
 export const mediaQueries = breakpoints.map(
   (bp) => `@media (max-width: ${bp}px)`,
 )
