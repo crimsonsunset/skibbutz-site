@@ -3,14 +3,54 @@ import store from "store"
 import { bindAll, cloneDeep, remove, uniqueId } from "lodash"
 import { graphql, StaticQuery } from "gatsby"
 import { BsFillPlayCircleFill } from "react-icons/bs"
-
-import PageTemplate from "@components/pageTemplate"
+import styled from "styled-components"
 import {
   Card, CardText, CardBody,
-  CardTitle, CardSubtitle, Button, Badge, ListGroup, ListGroupItem,
+  CardTitle, CardSubtitle, Button, Badge, Input, Form, FormGroup, Label,
 } from "reactstrap"
 
+
+import theme from "@styles/theme"
+import PageTemplate from "@components/pageTemplate"
 import DDList from "@components/ddList"
+import Hr from "@components/hr"
+
+
+let WordBox = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+
+  button {
+    background-color: blanchedalmond;
+    text-align: center;
+    padding: 10px;
+  }
+
+  span {
+    transform: scale(1.5);
+    margin-left: 5px;
+    background-color: transparent;
+    color: ${theme.tertiary};
+  }
+`
+
+let ActionBox = styled.div`
+  display: flex;
+  justify-content: center;
+  
+  input {
+    max-width: 100px;
+    margin: 0 auto;
+  }
+  
+  .submit-fg {
+    display: flex;
+    justify-content: center;
+  }
+  
+`
 
 
 export const SOUNDS_QUERY = graphql`
@@ -50,11 +90,13 @@ class Soundboard extends Component {
 
     this.state = {
       items: [],
+      delay: 10,
     }
 
     bindAll(this, [
       "renderSoundChips",
       "_playAudio",
+      "_playSentence",
       "_addSound",
       "_onItemsChanged",
       "_onItemsRemoved",
@@ -92,6 +134,16 @@ class Soundboard extends Component {
     })
   }
 
+
+  _playSentence() {
+
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext);
+
+    this.state.items.forEach(({ name }) => {
+      this._playAudio(name)
+    });
+
+  }
 
   _playAudio(name) {
     this.soundRefs[name]?.current?.play()
@@ -142,7 +194,8 @@ class Soundboard extends Component {
             {node.name}
             <Badge
               color="secondary"
-              onClick={(e, i) => {
+              onClick={(evt) => {
+                evt.stopPropagation()
                 this._playAudio(node.name)
               }}
             >
@@ -168,12 +221,15 @@ class Soundboard extends Component {
             <CardSubtitle tag="h6" className="mb-2 text-muted">And then rearrange them to your heart's
               content!</CardSubtitle>
             <CardText>
-              <StaticQuery
-                query={SOUNDS_QUERY}
-                render={this.renderSoundChips}
-              />
 
-              <hr className="spacer"></hr>
+              <WordBox>
+                <StaticQuery
+                  query={SOUNDS_QUERY}
+                  render={this.renderSoundChips}
+                />
+              </WordBox>
+
+              <Hr />
 
               <CardTitle tag="h4" className="mb-2 text-muted"> Justin Says... </CardTitle>
 
@@ -186,9 +242,46 @@ class Soundboard extends Component {
               </DDList>
 
             </CardText>
-            <Button
-              color="primary"
-            >What's that, Justin?</Button>
+
+            <ActionBox>
+
+              <Form>
+                <FormGroup>
+                  <Label for="wordDelay">
+                    Delay Between Words (ms)
+                  </Label>
+                  <Input
+                    id="wordDelay"
+                    name="word delay"
+                    placeholder="10"
+                    step="10"
+                    min="10"
+                    max="200"
+                    type="number"
+                    onChange={(evt) => {
+                      this.setState({ delay: evt.currentTarget.value })
+                    }}
+                  />
+                </FormGroup>
+
+                <FormGroup
+                  className='submit-fg'
+                >
+                  <Button
+                    color="primary"
+                    onClick={(evt) => {
+                      evt.preventDefault();
+                      this._playSentence()
+                    }}
+                  >
+                    What's that, Justin?
+                  </Button>
+                </FormGroup>
+
+              </Form>
+            </ActionBox>
+
+
           </CardBody>
         </Card>
 

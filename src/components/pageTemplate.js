@@ -8,7 +8,7 @@ let PageTemplate = ({title, children}) => (
     <PageTitle title={title}/>
     <Container className="py-4">
       <Row className="d-flex justify-content-center">
-        <Col sm={10}>
+        <Col sm={12}>
           {children}
         </Col>
       </Row>

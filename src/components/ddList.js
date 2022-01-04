@@ -1,12 +1,29 @@
 import React, { Component } from "react"
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
 import { bindAll } from "lodash"
-
 import theme from "@styles/theme"
-import { RiDeleteBinLine } from "react-icons/ri";
+import { RiDeleteBinFill } from "react-icons/ri"
 import { Badge } from "reactstrap"
+import styled from "styled-components"
 
 const grid = 8
+
+let StyledDDList = styled.div`
+  .drag-list{
+    max-width: 300px;
+    margin: 0 auto;
+    padding-bottom: 1px;
+  }
+  
+  span {
+    cursor: crosshair;
+    transform: scale(1.5);
+    margin-left: 5px;
+    background-color: transparent;
+    color: ${theme.secondary};
+  }
+`
+
 
 const getItemStyle = (isDragging, draggableStyle) => ({
 
@@ -14,6 +31,7 @@ const getItemStyle = (isDragging, draggableStyle) => ({
   userSelect: "none",
   padding: grid * 2,
   margin: `0 0 ${grid}px 0`,
+  borderRadius: 4,
 
   // change background colour if dragging
   background: isDragging ? theme.secondary : theme.primary,
@@ -52,64 +70,68 @@ class DDList extends Component {
       oldState: this.props.items,
       sourceIndex: result.source.index,
       destinationIndex: result.destination.index,
-    });
+    })
 
   }
 
   onItemRemoved(item) {
-    this.props.onItemRemoved(item);
+    this.props.onItemRemoved(item)
   }
 
   render() {
     return (
-      <DragDropContext
-        onDragEnd={this.onDragEnd}
-      >
-        <Droppable
-          droppableId="droppable"
+      <StyledDDList>
+        <DragDropContext
+          onDragEnd={this.onDragEnd}
         >
-          {(provided, snapshot) => (
-            <div
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-              style={getListStyle(snapshot.isDraggingOver)}
-            >
-              {this.props.items.map((item, index) => (
-                <Draggable
-                  key={item.id}
-                  draggableId={item.id}
-                  index={index}
-                >
-                  {(provided, snapshot) => (
-                    <div
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                      style={getItemStyle(
-                        snapshot.isDragging,
-                        provided.draggableProps.style,
-                      )}
-                    >
-                      {item.name}
-
-                      <Badge
-                        color="secondary"
-                        onClick={(e, i) => {
-                          this.onItemRemoved({ ...item,index })
-                        }}
+          <Droppable
+            droppableId="droppable"
+          >
+            {(provided, snapshot) => (
+              <div
+                className={'drag-list'}
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+                style={getListStyle(snapshot.isDraggingOver)}
+              >
+                {this.props.items.map((item, index) => (
+                  <Draggable
+                    key={item.id}
+                    draggableId={item.id}
+                    index={index}
+                  >
+                    {(provided, snapshot) => (
+                      <div
+                        className={'drag-item'}
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                        style={getItemStyle(
+                          snapshot.isDragging,
+                          provided.draggableProps.style,
+                        )}
                       >
-                        <RiDeleteBinLine />
-                      </Badge>
+                        {item.name}
 
-                    </div>
-                  )}
-                </Draggable>
-              ))}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
-      </DragDropContext>
+                        <Badge
+                          color="secondary"
+                          onClick={(e, i) => {
+                            this.onItemRemoved({ ...item, index })
+                          }}
+                        >
+                          <RiDeleteBinFill />
+                        </Badge>
+
+                      </div>
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
+      </StyledDDList>
     )
   }
 }
