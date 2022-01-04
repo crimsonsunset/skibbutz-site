@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react"
 import store from "store"
-import { bindAll, uniqueId } from "lodash"
+import { bindAll, cloneDeep, remove, uniqueId } from "lodash"
 import { graphql, StaticQuery } from "gatsby"
 import { BsFillPlayCircleFill } from "react-icons/bs"
 
@@ -41,7 +41,6 @@ const reorder = (list, startIndex, endIndex) => {
 }
 
 
-
 class Soundboard extends Component {
 
   constructor(props) {
@@ -58,6 +57,7 @@ class Soundboard extends Component {
       "_playAudio",
       "_addSound",
       "_onItemsChanged",
+      "_onItemsRemoved",
     ])
 
     // this.gMapRef = React.createRef();
@@ -71,7 +71,19 @@ class Soundboard extends Component {
   }
 
 
-  _onItemsChanged({ oldState,sourceIndex,destinationIndex }) {
+  _onItemsRemoved(item) {
+
+    let items = cloneDeep(this.state.items)
+    remove(items, (e) => {
+      return e.id === item.id
+    })
+
+    this.setState({
+      items,
+    })
+  }
+
+  _onItemsChanged({ oldState, sourceIndex, destinationIndex }) {
 
     const items = reorder(oldState, sourceIndex, destinationIndex)
 
@@ -94,7 +106,7 @@ class Soundboard extends Component {
         ...this.state.items,
         {
           id: uniqueId(),
-          ...soundNode
+          ...soundNode,
         },
       ],
     })
@@ -163,18 +175,20 @@ class Soundboard extends Component {
 
               <hr className="spacer"></hr>
 
-
               <CardTitle tag="h4" className="mb-2 text-muted"> Justin Says... </CardTitle>
 
               <DDList
                 items={this.state.items}
                 onDragEnd={this._onItemsChanged}
+                onItemRemoved={this._onItemsRemoved}
               >
 
               </DDList>
 
             </CardText>
-            <Button>What's that, Justin?</Button>
+            <Button
+              color="primary"
+            >What's that, Justin?</Button>
           </CardBody>
         </Card>
 

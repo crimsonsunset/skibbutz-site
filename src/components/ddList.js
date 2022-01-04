@@ -3,6 +3,8 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
 import { bindAll } from "lodash"
 
 import theme from "@styles/theme"
+import { RiDeleteBinLine } from "react-icons/ri";
+import { Badge } from "reactstrap"
 
 const grid = 8
 
@@ -23,7 +25,7 @@ const getItemStyle = (isDragging, draggableStyle) => ({
 const getListStyle = isDraggingOver => ({
   background: isDraggingOver ? theme.tertiary : "lightgrey",
   padding: grid,
-  width: 250,
+  // width: 250,
 })
 
 class DDList extends Component {
@@ -34,6 +36,7 @@ class DDList extends Component {
     // }
     bindAll(this, [
       "onDragEnd",
+      "onItemRemoved",
     ])
 
   }
@@ -51,6 +54,10 @@ class DDList extends Component {
       destinationIndex: result.destination.index,
     });
 
+  }
+
+  onItemRemoved(item) {
+    this.props.onItemRemoved(item);
   }
 
   render() {
@@ -84,6 +91,16 @@ class DDList extends Component {
                       )}
                     >
                       {item.name}
+
+                      <Badge
+                        color="secondary"
+                        onClick={(e, i) => {
+                          this.onItemRemoved({ ...item,index })
+                        }}
+                      >
+                        <RiDeleteBinLine />
+                      </Badge>
+
                     </div>
                   )}
                 </Draggable>
