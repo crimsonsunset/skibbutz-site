@@ -245,7 +245,7 @@ class Soundboard extends Component {
   }
 
   render() {
-
+    const areButtonsDisabled = this.state.items.length === 0;
     return (
       <PageTemplate title="Justin Soundboard">
 
@@ -255,6 +255,10 @@ class Soundboard extends Component {
             <CardTitle tag="h5">Select Your Words!</CardTitle>
             <CardSubtitle tag="h6" className="mb-2 text-muted">And then rearrange them to your heart's
               content!</CardSubtitle>
+            <CardSubtitle tag="h6" className="mb-2 text-muted">
+
+
+            </CardSubtitle>
             <CardText>
 
               <WordBox>
@@ -303,6 +307,7 @@ class Soundboard extends Component {
                   className="submit-fg"
                 >
                   <Button
+                    disabled={areButtonsDisabled}
                     color="primary"
                     onClick={(evt) => {
                       evt.preventDefault()
@@ -313,6 +318,7 @@ class Soundboard extends Component {
                   </Button>
 
                   <Button
+                    disabled={areButtonsDisabled}
                     className="clear-btn"
                     onClick={(evt) => {
                       evt.preventDefault()

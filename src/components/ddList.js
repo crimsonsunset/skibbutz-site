@@ -40,18 +40,18 @@ const getItemStyle = (isDragging, draggableStyle) => ({
   ...draggableStyle,
 })
 
-const getListStyle = isDraggingOver => ({
+const getListStyle = (isDraggingOver, numItems) => ({
+  display: (numItems === 0) ? 'none' : 'block',
   background: isDraggingOver ? theme.tertiary : "blanchedalmond",
   padding: grid,
+
   // width: 250,
 })
 
 class DDList extends Component {
   constructor(props) {
     super(props)
-    // this.state = {
-    //   items: getItems(10),
-    // }
+
     bindAll(this, [
       "onDragEnd",
       "onItemRemoved",
@@ -92,7 +92,7 @@ class DDList extends Component {
                 className={'drag-list'}
                 {...provided.droppableProps}
                 ref={provided.innerRef}
-                style={getListStyle(snapshot.isDraggingOver)}
+                style={getListStyle(snapshot.isDraggingOver, this.props.items.length)}
               >
                 {this.props.items.map((item, index) => (
                   <Draggable
