@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react"
 import store from "store"
-import { bindAll, cloneDeep, remove, uniqueId, map } from "lodash"
+import { bindAll, cloneDeep, remove, uniqueId, map, flattenDeep } from "lodash"
 import { graphql, StaticQuery } from "gatsby"
 import { BsFillPlayCircleFill } from "react-icons/bs"
 import styled from "styled-components"
@@ -46,11 +46,14 @@ let ActionBox = styled.div`
   }
 
   .submit-fg {
-    text-align: center;
     display: flex;
     justify-content: center;
   }
-  
+
+  .form-group {
+    text-align: center;
+  }
+
   .clear-btn {
     background-color: ${theme.text};
     margin-left: 15px;
@@ -69,7 +72,6 @@ export const SOUNDS_QUERY = graphql`
                 node {
                     name
                     publicURL
-                    #                    id
                 }
             }
         }
@@ -93,12 +95,12 @@ class Soundboard extends Component {
   constructor(props) {
     super(props)
 
-    this.soundRefs = {}
+    this.soundLocations = {}
     this.BLANK_SOUND_URL = undefined
 
     this.state = {
       items: [],
-      delay: 10,
+      delay: 0.25,
     }
 
     bindAll(this, [
@@ -136,28 +138,51 @@ class Soundboard extends Component {
 
 
   _autoplay(i, list) {
-    const that = this
-    const sound = new Howl({
-      src: [list[i]],
+    const currSound = list[i]
+    let playOptions = {
+      src: [currSound],
       preload: true,
+    }
+    let spriteName
+    const that = this
+    const isBlankSound = currSound.includes("BLANK_SOUND")
+
+    if (isBlankSound) {
+      spriteName = "blank"
+      playOptions = {
+        ...playOptions,
+        sprite: {
+          [spriteName]: [0, this.state.delay * 1000],
+        },
+      }
+    }
+
+    const sound = new Howl({
+      ...playOptions,
       onend() {
         if ((i + 1) !== list.length) {
           that._autoplay(i + 1, list)
         }
       },
     })
-    sound.play()
+
+    sound.play(spriteName)
+
   }
 
   _playSentence() {
 
-    const soundList = map(this.state.items, "publicURL")
+    // pull out URLs, insert blank sound in between
+    const soundList = flattenDeep(map(this.state.items, (sound) => {
+      return [sound.publicURL, this.BLANK_SOUND_URL]
+    }))
+
     this._autoplay(0, soundList)
 
   }
 
   _playAudio(name) {
-    this.soundRefs[name]?.current?.play()
+    this._autoplay(0, [this.soundLocations[name]])
   }
 
 
@@ -188,22 +213,12 @@ class Soundboard extends Component {
           <Fragment key={i} />
         )
       }
-
-
-      let currRef = React.createRef()
-      this.soundRefs[node.name] = currRef
+      this.soundLocations[node.name] = node.publicURL
 
       return (
         <Fragment
           key={i}
         >
-          <audio
-            ref={currRef}
-          >
-            <source src={node.publicURL} type="audio/mpeg" />
-          </audio>
-
-
           <Button
             outline
             color="primary"
@@ -268,15 +283,15 @@ class Soundboard extends Component {
               <Form>
                 <FormGroup>
                   <Label for="wordDelay">
-                    Delay Between Words (ms)
+                    Delay Between Words (sec)
                   </Label>
                   <Input
                     id="wordDelay"
                     name="word delay"
-                    placeholder="10"
-                    step="10"
-                    min="10"
-                    max="200"
+                    placeholder="0.25"
+                    step="0.25"
+                    min="0"
+                    max="4.0"
                     type="number"
                     onChange={(evt) => {
                       this.setState({ delay: evt.currentTarget.value })
@@ -298,10 +313,10 @@ class Soundboard extends Component {
                   </Button>
 
                   <Button
-                    className='clear-btn'
+                    className="clear-btn"
                     onClick={(evt) => {
                       evt.preventDefault()
-                      this.setState({items:[]})
+                      this.setState({ items: [] })
                     }}
                   >
                     Clear Words
