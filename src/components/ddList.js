@@ -12,14 +12,14 @@ let StyledDDList = styled.div`
   .drag-list{
     max-width: 300px;
     margin: 0 auto;
-    padding-bottom: 1px;
+    padding-bottom: 1px !important;
   }
   
   span {
-    cursor: crosshair;
+    cursor: pointer;
     transform: scale(1.5);
-    margin-left: 5px;
-    background-color: transparent;
+    margin-left: 10px;
+    background-color: ${theme.text};
     color: ${theme.secondary};
   }
 `
@@ -41,7 +41,7 @@ const getItemStyle = (isDragging, draggableStyle) => ({
 })
 
 const getListStyle = isDraggingOver => ({
-  background: isDraggingOver ? theme.tertiary : "lightgrey",
+  background: isDraggingOver ? theme.tertiary : "blanchedalmond",
   padding: grid,
   // width: 250,
 })

@@ -1,4 +1,5 @@
 let theme = {
+  text: "#293687",
   primary: "#007bff",
   secondary: "#dd45d3",
   tertiary: "#73ccb8",

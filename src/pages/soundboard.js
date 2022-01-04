@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react"
 import store from "store"
-import { bindAll, cloneDeep, remove, uniqueId } from "lodash"
+import { bindAll, cloneDeep, remove, uniqueId, map } from "lodash"
 import { graphql, StaticQuery } from "gatsby"
 import { BsFillPlayCircleFill } from "react-icons/bs"
 import styled from "styled-components"
@@ -8,7 +8,7 @@ import {
   Card, CardText, CardBody,
   CardTitle, CardSubtitle, Button, Badge, Input, Form, FormGroup, Label,
 } from "reactstrap"
-
+import { Howl } from "howler"
 
 import theme from "@styles/theme"
 import PageTemplate from "@components/pageTemplate"
@@ -39,17 +39,23 @@ let WordBox = styled.div`
 let ActionBox = styled.div`
   display: flex;
   justify-content: center;
-  
+
   input {
     max-width: 100px;
     margin: 0 auto;
   }
-  
+
   .submit-fg {
+    text-align: center;
     display: flex;
     justify-content: center;
   }
   
+  .clear-btn {
+    background-color: ${theme.text};
+    margin-left: 15px;
+  }
+
 `
 
 
@@ -63,6 +69,7 @@ export const SOUNDS_QUERY = graphql`
                 node {
                     name
                     publicURL
+                    #                    id
                 }
             }
         }
@@ -87,6 +94,7 @@ class Soundboard extends Component {
     super(props)
 
     this.soundRefs = {}
+    this.BLANK_SOUND_URL = undefined
 
     this.state = {
       items: [],
@@ -96,22 +104,14 @@ class Soundboard extends Component {
     bindAll(this, [
       "renderSoundChips",
       "_playAudio",
+      "_autoplay",
       "_playSentence",
       "_addSound",
       "_onItemsChanged",
       "_onItemsRemoved",
     ])
 
-    // this.gMapRef = React.createRef();
-    // this.facilityService = FacilityService.getInstance();
-    //
-    // this.gaService = GAService.getInstance();
-    // this.gaService.setScreenName('map');
-    //
-    // this.mapService = MapService.getInstance();
-    // this.mapService.onLocationAccepted = this.onLocationAccepted;
   }
-
 
   _onItemsRemoved(item) {
 
@@ -135,13 +135,24 @@ class Soundboard extends Component {
   }
 
 
+  _autoplay(i, list) {
+    const that = this
+    const sound = new Howl({
+      src: [list[i]],
+      preload: true,
+      onend() {
+        if ((i + 1) !== list.length) {
+          that._autoplay(i + 1, list)
+        }
+      },
+    })
+    sound.play()
+  }
+
   _playSentence() {
 
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext);
-
-    this.state.items.forEach(({ name }) => {
-      this._playAudio(name)
-    });
+    const soundList = map(this.state.items, "publicURL")
+    this._autoplay(0, soundList)
 
   }
 
@@ -151,7 +162,6 @@ class Soundboard extends Component {
 
 
   _addSound(soundNode) {
-    // this._playAudio(soundNode.name)
 
     this.setState({
       items: [
@@ -170,6 +180,16 @@ class Soundboard extends Component {
     // todo: sort from query instead of JS
 
     return edges.map(({ node }, i) => {
+
+      // dont want blank button
+      if (node.name === "BLANK_SOUND") {
+        this.BLANK_SOUND_URL = node.publicURL
+        return (
+          <Fragment key={i} />
+        )
+      }
+
+
       let currRef = React.createRef()
       this.soundRefs[node.name] = currRef
 
@@ -265,17 +285,28 @@ class Soundboard extends Component {
                 </FormGroup>
 
                 <FormGroup
-                  className='submit-fg'
+                  className="submit-fg"
                 >
                   <Button
                     color="primary"
                     onClick={(evt) => {
-                      evt.preventDefault();
+                      evt.preventDefault()
                       this._playSentence()
                     }}
                   >
                     What's that, Justin?
                   </Button>
+
+                  <Button
+                    className='clear-btn'
+                    onClick={(evt) => {
+                      evt.preventDefault()
+                      this.setState({items:[]})
+                    }}
+                  >
+                    Clear Words
+                  </Button>
+
                 </FormGroup>
 
               </Form>
