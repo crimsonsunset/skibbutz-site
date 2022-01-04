@@ -4,23 +4,6 @@ import { bindAll } from "lodash"
 
 import theme from "@styles/theme"
 
-
-// fake data generator
-const getItems = count =>
-  Array.from({ length: count }, (v, k) => k).map(k => ({
-    id: `item-${k}`,
-    content: `item ${k}`,
-  }))
-
-// a little function to help us with reordering the result
-const reorder = (list, startIndex, endIndex) => {
-  const result = Array.from(list)
-  const [removed] = result.splice(startIndex, 1)
-  result.splice(endIndex, 0, removed)
-
-  return result
-}
-
 const grid = 8
 
 const getItemStyle = (isDragging, draggableStyle) => ({
@@ -46,9 +29,9 @@ const getListStyle = isDraggingOver => ({
 class DDList extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      items: getItems(10),
-    }
+    // this.state = {
+    //   items: getItems(10),
+    // }
     bindAll(this, [
       "onDragEnd",
     ])
@@ -62,17 +45,12 @@ class DDList extends Component {
       return
     }
 
-    const items = reorder(
-      this.state.items,
-      result.source.index,
-      result.destination.index,
-    )
+    this.props.onDragEnd({
+      oldState: this.props.items,
+      sourceIndex: result.source.index,
+      destinationIndex: result.destination.index,
+    });
 
-    this.setState({
-      items,
-    })
-
-    console.log(items)
   }
 
   render() {
@@ -89,8 +67,12 @@ class DDList extends Component {
               ref={provided.innerRef}
               style={getListStyle(snapshot.isDraggingOver)}
             >
-              {this.state.items.map((item, index) => (
-                <Draggable key={item.id} draggableId={item.id} index={index}>
+              {this.props.items.map((item, index) => (
+                <Draggable
+                  key={item.id}
+                  draggableId={item.id}
+                  index={index}
+                >
                   {(provided, snapshot) => (
                     <div
                       ref={provided.innerRef}
@@ -101,7 +83,7 @@ class DDList extends Component {
                         provided.draggableProps.style,
                       )}
                     >
-                      {item.content}
+                      {item.name}
                     </div>
                   )}
                 </Draggable>

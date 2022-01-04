@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react"
 import store from "store"
-import { bindAll } from "lodash"
+import { bindAll, uniqueId } from "lodash"
 import { graphql, StaticQuery } from "gatsby"
 import { BsFillPlayCircleFill } from "react-icons/bs"
 
@@ -31,6 +31,17 @@ export const SOUNDS_QUERY = graphql`
 `
 
 
+// a little function to help us with reordering the result
+const reorder = (list, startIndex, endIndex) => {
+  const result = Array.from(list)
+  const [removed] = result.splice(startIndex, 1)
+  result.splice(endIndex, 0, removed)
+
+  return result
+}
+
+
+
 class Soundboard extends Component {
 
   constructor(props) {
@@ -46,6 +57,7 @@ class Soundboard extends Component {
       "renderSoundChips",
       "_playAudio",
       "_addSound",
+      "_onItemsChanged",
     ])
 
     // this.gMapRef = React.createRef();
@@ -56,6 +68,16 @@ class Soundboard extends Component {
     //
     // this.mapService = MapService.getInstance();
     // this.mapService.onLocationAccepted = this.onLocationAccepted;
+  }
+
+
+  _onItemsChanged({ oldState,sourceIndex,destinationIndex }) {
+
+    const items = reorder(oldState, sourceIndex, destinationIndex)
+
+    this.setState({
+      items,
+    })
   }
 
 
@@ -70,7 +92,10 @@ class Soundboard extends Component {
     this.setState({
       items: [
         ...this.state.items,
-        soundNode
+        {
+          id: uniqueId(),
+          ...soundNode
+        },
       ],
     })
   }
@@ -88,7 +113,6 @@ class Soundboard extends Component {
         <Fragment
           key={i}
         >
-
           <audio
             ref={currRef}
           >
@@ -136,39 +160,23 @@ class Soundboard extends Component {
                 query={SOUNDS_QUERY}
                 render={this.renderSoundChips}
               />
+
+              <hr className="spacer"></hr>
+
+
+              <CardTitle tag="h4" className="mb-2 text-muted"> Justin Says... </CardTitle>
+
+              <DDList
+                items={this.state.items}
+                onDragEnd={this._onItemsChanged}
+              >
+
+              </DDList>
+
             </CardText>
-            <Button>Play My Sounds!</Button>
+            <Button>What's that, Justin?</Button>
           </CardBody>
         </Card>
-
-        <hr className="spacer"></hr>
-
-
-        <DDList
-          items={this.state.items}
-        >
-
-        </DDList>
-
-        {/*<ListGroup*/}
-        {/*  horizontal*/}
-        {/*>*/}
-        {/*  <ListGroupItem>*/}
-        {/*    Cras justo odio*/}
-        {/*  </ListGroupItem>*/}
-        {/*  <ListGroupItem>*/}
-        {/*    Dapibus ac facilisis in*/}
-        {/*  </ListGroupItem>*/}
-        {/*  <ListGroupItem>*/}
-        {/*    Morbi leo risus*/}
-        {/*  </ListGroupItem>*/}
-        {/*  <ListGroupItem>*/}
-        {/*    Porta ac consectetur ac*/}
-        {/*  </ListGroupItem>*/}
-        {/*  <ListGroupItem>*/}
-        {/*    Vestibulum at eros*/}
-        {/*  </ListGroupItem>*/}
-        {/*</ListGroup>*/}
 
 
       </PageTemplate>
