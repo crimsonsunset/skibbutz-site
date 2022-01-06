@@ -35,6 +35,8 @@ const getItemStyle = (isDragging, draggableStyle) => ({
 
   // change background colour if dragging
   background: isDragging ? theme.secondary : theme.primary,
+  display: 'flex',
+  justifyContent: 'space-between',
 
   // styles we need to apply on draggables
   ...draggableStyle,

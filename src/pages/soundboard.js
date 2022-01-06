@@ -8,6 +8,7 @@ import {
   Card, CardText, CardBody,
   CardTitle, CardSubtitle, Button, Badge, Input, Form, FormGroup, Label,
 } from "reactstrap"
+import { Typeahead } from 'react-bootstrap-typeahead';
 import { Howl } from "howler"
 
 import theme from "@styles/theme"
@@ -96,7 +97,9 @@ class Soundboard extends Component {
     super(props)
 
     this.soundLocations = {}
+    this.soundsFromQuery = []
     this.BLANK_SOUND_URL = undefined
+    this.typeaheadRef = undefined
 
     this.state = {
       items: [],
@@ -111,8 +114,14 @@ class Soundboard extends Component {
       "_addSound",
       "_onItemsChanged",
       "_onItemsRemoved",
+      "_onWordSelected",
     ])
+  }
 
+  componentDidMount(){
+    // todo: cleanup and remove this
+    // to render items in typeahead (gatsby query)
+    this.forceUpdate()
   }
 
   _onItemsRemoved(item) {
@@ -134,6 +143,23 @@ class Soundboard extends Component {
     this.setState({
       items,
     })
+  }
+
+  _onWordSelected([item, ...rest]) {
+
+    if(!item){
+      return
+    }
+
+    this.setState({
+      items: [
+        ...this.state.items,
+        item
+      ],
+    })
+    this.typeaheadRef.current.clear()
+    this.typeaheadRef.current.focus()
+
   }
 
 
@@ -204,7 +230,8 @@ class Soundboard extends Component {
 
     // todo: sort from query instead of JS
 
-    return edges.map(({ node }, i) => {
+
+    const retChips = edges.map(({ node }, i) => {
 
       // dont want blank button
       if (node.name === "BLANK_SOUND") {
@@ -242,13 +269,24 @@ class Soundboard extends Component {
       )
     })
 
+    this.soundsFromQuery = edges.map(({node}) => {
+      // dont want blank option
+      if (node.name === "BLANK_SOUND") {
+        this.BLANK_SOUND_URL = node.publicURL
+        return undefined
+      }else{
+        return { ...node, label: node.name }
+      }
+    }).filter(Boolean)
+    return retChips
+
   }
 
   render() {
     const areButtonsDisabled = this.state.items.length === 0;
+    this.typeaheadRef = React.createRef();
     return (
       <PageTemplate title="Justin Soundboard">
-
 
         <Card>
           <CardBody>
@@ -256,9 +294,16 @@ class Soundboard extends Component {
             <CardSubtitle tag="h6" className="mb-2 text-muted">And then rearrange them to your heart's
               content!</CardSubtitle>
             <CardSubtitle tag="h6" className="mb-2 text-muted">
-
-
+              <Typeahead
+                ref={this.typeaheadRef}
+                clearButton
+                id='wordSearch'
+                placeholder="Search for a Word..."
+                onChange={this._onWordSelected}
+                options={this.soundsFromQuery}
+              />
             </CardSubtitle>
+
             <CardText>
 
               <WordBox>
