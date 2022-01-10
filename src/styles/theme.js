@@ -1,3 +1,5 @@
+import 'react-rangeslider/lib/index.css'
+
 let theme = {
   text: "#293687",
   primary: "#007bff",

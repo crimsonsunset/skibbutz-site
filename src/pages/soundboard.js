@@ -6,16 +6,50 @@ import { BsFillPlayCircleFill } from "react-icons/bs"
 import styled from "styled-components"
 import {
   Card, CardText, CardBody,
-  CardTitle, CardSubtitle, Button, Badge, Input, Form, FormGroup, Label,
+  CardTitle, CardSubtitle, Button, Badge, Input,
+  Form, FormGroup, Label, Dropdown, DropdownToggle, DropdownMenu,
 } from "reactstrap"
-import { Typeahead } from 'react-bootstrap-typeahead';
+import { Typeahead } from "react-bootstrap-typeahead"
 import { Howl } from "howler"
+import Slider from "react-rangeslider"
 
 import theme from "@styles/theme"
 import PageTemplate from "@components/pageTemplate"
 import DDList from "@components/ddList"
 import Hr from "@components/hr"
 
+
+let SBCard = styled.div`
+  h6 {
+    margin-bottom: 25px !important;
+  }
+
+  .rbt {
+    margin-bottom: 5px !important;
+  }
+
+  hr {
+    width: auto !important;
+  }
+
+  .dropdown-menu.show{
+    min-width: 92px;
+  }
+  
+  .form-check {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .form-check-label{
+    margin-bottom: 10px !important;
+  }
+
+  .dropdown-toggle {
+   margin-top: 30px; 
+  }
+
+`
 
 let WordBox = styled.div`
   display: flex;
@@ -35,6 +69,7 @@ let WordBox = styled.div`
     background-color: transparent;
     color: ${theme.tertiary};
   }
+
 `
 
 let ActionBox = styled.div`
@@ -44,6 +79,12 @@ let ActionBox = styled.div`
   input {
     max-width: 100px;
     margin: 0 auto;
+  }
+
+  .fg-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
   }
 
   .submit-fg {
@@ -104,6 +145,10 @@ class Soundboard extends Component {
     this.state = {
       items: [],
       delay: 0.25,
+      loop: false,
+      volume: 1.0,
+      rate: 1.0,
+      isVolumeToggleOpen: false,
     }
 
     bindAll(this, [
@@ -118,7 +163,7 @@ class Soundboard extends Component {
     ])
   }
 
-  componentDidMount(){
+  componentDidMount() {
     // todo: cleanup and remove this
     // to render items in typeahead (gatsby query)
     this.forceUpdate()
@@ -147,14 +192,14 @@ class Soundboard extends Component {
 
   _onWordSelected([item, ...rest]) {
 
-    if(!item){
+    if (!item) {
       return
     }
 
     this.setState({
       items: [
         ...this.state.items,
-        item
+        item,
       ],
     })
     this.typeaheadRef.current.clear()
@@ -165,9 +210,14 @@ class Soundboard extends Component {
 
   _autoplay(i, list) {
     const currSound = list[i]
+    const { loop, speed, volume, rate } = this.state
     let playOptions = {
       src: [currSound],
       preload: true,
+      loop,
+      speed,
+      volume,
+      rate,
     }
     let spriteName
     const that = this
@@ -242,6 +292,8 @@ class Soundboard extends Component {
       }
       this.soundLocations[node.name] = node.publicURL
 
+      const name = node.name.replace("_", `'`)
+
       return (
         <Fragment
           key={i}
@@ -253,7 +305,7 @@ class Soundboard extends Component {
               this._addSound(node)
             }}
           >
-            {node.name}
+            {name}
             <Badge
               color="secondary"
               onClick={(evt) => {
@@ -269,12 +321,12 @@ class Soundboard extends Component {
       )
     })
 
-    this.soundsFromQuery = edges.map(({node}) => {
+    this.soundsFromQuery = edges.map(({ node }) => {
       // dont want blank option
       if (node.name === "BLANK_SOUND") {
         this.BLANK_SOUND_URL = node.publicURL
         return undefined
-      }else{
+      } else {
         return { ...node, label: node.name }
       }
     }).filter(Boolean)
@@ -283,104 +335,186 @@ class Soundboard extends Component {
   }
 
   render() {
-    const areButtonsDisabled = this.state.items.length === 0;
-    this.typeaheadRef = React.createRef();
+    const areButtonsDisabled = this.state.items.length === 0
+    this.typeaheadRef = React.createRef()
     return (
       <PageTemplate title="Justin Soundboard">
 
-        <Card>
-          <CardBody>
-            <CardTitle tag="h5">Select Your Words!</CardTitle>
-            <CardSubtitle tag="h6" className="mb-2 text-muted">And then rearrange them to your heart's
-              content!</CardSubtitle>
-            <CardSubtitle tag="h6" className="mb-2 text-muted">
-              <Typeahead
-                ref={this.typeaheadRef}
-                clearButton
-                id='wordSearch'
-                placeholder="Search for a Word..."
-                onChange={this._onWordSelected}
-                options={this.soundsFromQuery}
-              />
-            </CardSubtitle>
-
-            <CardText>
-
-              <WordBox>
-                <StaticQuery
-                  query={SOUNDS_QUERY}
-                  render={this.renderSoundChips}
+        <SBCard>
+          <Card>
+            <CardBody>
+              <CardTitle tag="h5">Select Your Words!</CardTitle>
+              <CardSubtitle tag="h6" className="mb-2 text-muted">And then rearrange them to your heart's
+                content!</CardSubtitle>
+              <CardSubtitle tag="h6" className="mb-2 text-muted">
+                <Typeahead
+                  ref={this.typeaheadRef}
+                  clearButton
+                  id="wordSearch"
+                  placeholder="Search for a Word..."
+                  onChange={this._onWordSelected}
+                  options={this.soundsFromQuery}
                 />
-              </WordBox>
+              </CardSubtitle>
 
-              <Hr />
+              <CardText>
 
-              <CardTitle tag="h4" className="mb-2 text-muted"> Justin Says... </CardTitle>
-
-              <DDList
-                items={this.state.items}
-                onDragEnd={this._onItemsChanged}
-                onItemRemoved={this._onItemsRemoved}
-              >
-
-              </DDList>
-
-            </CardText>
-
-            <ActionBox>
-
-              <Form>
-                <FormGroup>
-                  <Label for="wordDelay">
-                    Delay Between Words (sec)
-                  </Label>
-                  <Input
-                    id="wordDelay"
-                    name="word delay"
-                    placeholder="0.25"
-                    step="0.25"
-                    min="0"
-                    max="4.0"
-                    type="number"
-                    onChange={(evt) => {
-                      this.setState({ delay: evt.currentTarget.value })
-                    }}
+                <WordBox>
+                  <StaticQuery
+                    query={SOUNDS_QUERY}
+                    render={this.renderSoundChips}
                   />
-                </FormGroup>
+                </WordBox>
 
-                <FormGroup
-                  className="submit-fg"
+                <Hr />
+
+                <CardTitle tag="h4" className="mb-2 text-muted"> Justin Says... </CardTitle>
+
+                <DDList
+                  items={this.state.items}
+                  onDragEnd={this._onItemsChanged}
+                  onItemRemoved={this._onItemsRemoved}
                 >
-                  <Button
-                    disabled={areButtonsDisabled}
-                    color="primary"
-                    onClick={(evt) => {
-                      evt.preventDefault()
-                      this._playSentence()
-                    }}
+
+                </DDList>
+
+              </CardText>
+
+              <ActionBox>
+
+                <Form>
+
+                  <div className="fg-row">
+
+                    <FormGroup>
+                      <Label for="wordDelay">
+                        Delay Between Words (sec)
+                      </Label>
+                      <Input
+                        id="wordDelay"
+                        name="word delay"
+                        placeholder="0.25"
+                        step="0.25"
+                        min="0"
+                        max="4.0"
+                        type="number"
+                        onChange={(evt) => {
+                          this.setState({ delay: evt.currentTarget.value })
+                        }}
+                      />
+                    </FormGroup>
+
+                    <FormGroup>
+                      <Label for="rate">
+                        Speed
+                      </Label>
+                      <Input
+                        id="rate"
+                        name="rate"
+                        placeholder="1.0"
+                        step="0.25"
+                        min="0"
+                        max="4.0"
+                        type="number"
+                        onChange={(evt) => {
+                          this.setState({ rate: evt.currentTarget.value })
+                        }}
+                      />
+                    </FormGroup>
+
+                    <FormGroup
+                      check
+                      inline
+                    >
+
+                      <Label
+                        for="rate"
+                        check>
+                        Loop?
+                      </Label>
+
+                      <Input
+                        id="loop"
+                        type="checkbox"
+                        onClick={(evt) => {
+                          this.setState({ loop: !this.state.loop })
+                        }}
+                      />
+
+                    </FormGroup>
+
+                    <FormGroup
+                    >
+                      <div>
+                        <Dropdown
+                          direction="up"
+                          isOpen={this.state.isVolumeToggleOpen}
+                          toggle={(evt) => {
+                            this.setState({ isVolumeToggleOpen: !this.state.isVolumeToggleOpen })
+                          }}
+                        >
+                          <DropdownToggle caret>
+                            Volume
+                          </DropdownToggle>
+                          <DropdownMenu>
+
+                            <div className="slider-vertical">
+                              <Slider
+                                min={0}
+                                max={1}
+                                step={0.1}
+                                tooltip={false}
+                                value={this.state.volume}
+                                orientation="vertical"
+                                onChange={(value) => {
+                                  this.setState({ volume: value })
+                                }}
+                              />
+                            </div>
+
+                          </DropdownMenu>
+                        </Dropdown>
+                      </div>
+
+                    </FormGroup>
+
+                  </div>
+
+                  <FormGroup
+                    className="submit-fg"
                   >
-                    What's that, Justin?
-                  </Button>
+                    <Button
+                      disabled={areButtonsDisabled}
+                      color="primary"
+                      onClick={(evt) => {
+                        evt.preventDefault()
+                        this._playSentence()
+                      }}
+                    >
+                      What's that, Justin?
+                    </Button>
 
-                  <Button
-                    disabled={areButtonsDisabled}
-                    className="clear-btn"
-                    onClick={(evt) => {
-                      evt.preventDefault()
-                      this.setState({ items: [] })
-                    }}
-                  >
-                    Clear Words
-                  </Button>
+                    <Button
+                      disabled={areButtonsDisabled}
+                      className="clear-btn"
+                      onClick={(evt) => {
+                        evt.preventDefault()
+                        this.setState({ items: [] })
+                      }}
+                    >
+                      Clear Words
+                    </Button>
 
-                </FormGroup>
-
-              </Form>
-            </ActionBox>
+                  </FormGroup>
 
 
-          </CardBody>
-        </Card>
+                </Form>
+              </ActionBox>
+
+
+            </CardBody>
+          </Card>
+        </SBCard>
 
 
       </PageTemplate>
