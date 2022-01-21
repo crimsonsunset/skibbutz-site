@@ -80,3 +80,9 @@ p {
   color: $primary;
   background-color: rgba(red($primary), green($primary), blue($primary), 0.2);
 }
+
+iframe {
+  height:calc(100vh - 170px);
+  width:100vw;
+  box-sizing: border-box;
+}
