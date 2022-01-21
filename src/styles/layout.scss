@@ -26,7 +26,7 @@ $gradient: linear-gradient(210deg,#943cff 0%,#dd45d3 40.13%,#fc9a57 90%);
 //@import "node_modules/bootstrap/scss/pagination";
 //@import "node_modules/bootstrap/scss/badge";
 //@import "node_modules/bootstrap/scss/jumbotron";
-//@import "node_modules/bootstrap/scss/alert";
+@import "node_modules/bootstrap/scss/alert";
 //@import "node_modules/bootstrap/scss/progress";
 //@import "node_modules/bootstrap/scss/media";
 //@import "node_modules/bootstrap/scss/list-group";
@@ -76,13 +76,36 @@ p {
   }
 }
 
+.flip-vertical {
+  transform:scale(-1, 1);
+  width:fit-content;
+  margin-right: 5px;
+}
+
+.alert-home{
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 5px !important;
+}
+
+.alert-dismissible .close {
+  padding: 12px !important;
+  background-color: transparent;
+  border: 0px !important;
+
+  &:focus{
+    outline: none !important;
+  }
+}
+
 .bg-primary-faded {
-  color: $primary;
-  background-color: rgba(red($primary), green($primary), blue($primary), 0.2);
+color: $primary;
+background-color: rgba(red($primary), green($primary), blue($primary), 0.2);
 }
 
 iframe {
-  height:calc(100vh - 170px);
-  width:100vw;
-  box-sizing: border-box;
+height:calc(100vh - 170px);
+width:100vw;
+box-sizing: border-box;
 }
