@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-// import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from "@components/header"
 import Footer from "@components/footer"
 import SubFooter from "@components/subFooter"
@@ -30,11 +30,11 @@ let Tour = () => {
       content: (
         <Row className="p-2">
           <Col sm="12" className="p-2">
-            <iframe src="https://maps.roadtrippers.com/embedded/trips/35390825"
-                    frameBorder="0"
-                    allowFullScreen
+            <iframe
+              src="https://maps.roadtrippers.com/embedded/trips/35390825"
+              frameBorder="0"
+              allowFullScreen
             >
-
             </iframe>
           </Col>
         </Row>
