@@ -28,22 +28,28 @@ let Feature = ({ title, description, img }) => (
 
 const dwellerData = {
   joe: {
-    description: 'Joe likes making sure the house is stocked with snacks'
+    description: 'Joe likes stocking the house with snacks'
   },
   jess: {
     description: 'Jess likes fuzzy things'
   },
-  graham: {
-    description: 'Graham really only cares about snacks'
-  },
+  // graham: {
+  //   description: 'Graham really only cares about snacks'
+  // },
   justin: {
     description: 'Justin likes gear'
   },
   seneca: {
     description: 'Seneca likes hitting 40mph'
   },
-  alon: {
-    description: 'Alon likes red white cables'
+  // alon: {
+  //   description: 'Alon likes red white cables'
+  // },
+  jared: {
+    description: `Jared likes turtles`
+  },
+  aaron: {
+    description: 'Aaron likes shredding the gnar'
   },
 };
 

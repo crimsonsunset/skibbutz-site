@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from "@components/header"
 import Footer from "@components/footer"
 import SubFooter from "@components/subFooter"
@@ -14,15 +14,15 @@ let Tour = () => {
   const location = useLocation()
   const searchParams = parse(location.search)
   let [currTab] = Object.keys(searchParams)
-  currTab = (currTab) ? currTab : 'map'
+  currTab = (currTab) ? currTab : "map"
 
 
   useEffect(() => {
-    navigate(`/tour?${currTab}`)
+    onTabClicked(currTab)
   }, [])
 
 
-  const [activeTab, setActiveTab] = useState(currTab);
+  const [activeTab, setActiveTab] = useState(currTab)
 
   const tabs = {
     "map": {
@@ -38,7 +38,7 @@ let Tour = () => {
             </iframe>
           </Col>
         </Row>
-      )
+      ),
     },
     "calendar": {
       title: "Tour Stops",
@@ -56,23 +56,30 @@ let Tour = () => {
 
           </Col>
         </Row>
-      )
+      ),
     },
     "groupies": {
       title: "Groupie Schedule",
       content: (
         <Row className="p-2">
           <Col sm="12" className="p-2">
-            <h4 className="text-success">Coming Soon!</h4>
+
+            <iframe
+              src="https://docs.google.com/spreadsheets/d/1swWvf1KaA-LvaLZXJKLgrEaYyTLp5YHMWC2hocSSv9s/edit?usp=sharing?&amp;rm=minimal&amp;single=true&amp;">
+              frameBorder="0"
+              scrolling="no"
+              allowFullScreen
+            </iframe>
+
           </Col>
         </Row>
-      )
-    }
+      ),
+    },
   }
 
 
   const onTabClicked = tab => {
-    if (activeTab !== tab) setActiveTab(tab);
+    if (activeTab !== tab) setActiveTab(tab)
     navigate(`/tour?${tab}`)
   }
 
@@ -89,7 +96,7 @@ let Tour = () => {
                     <NavLink
                       className={activeTab === tab[0] ? "active" : ""}
                       onClick={() => {
-                        onTabClicked(tab[0]);
+                        onTabClicked(tab[0])
                       }}
                       role="button"
                     >

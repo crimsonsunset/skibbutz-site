@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+// import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { Container, Row, Col, Alert } from "reactstrap"
 import Link from "@components/link"
@@ -52,11 +53,11 @@ let Index = () => {
       >
 
         <div className="flip-vertical">🚙</div>
-        Hey you: We're on Tour! Come visit us at a {" "}
+        Hey, we're on Tour! Come visit us at a {" "}
         <Link
           to="/tour"
         >
-          &nbsp;city near you
+          &nbsp;city near you.
         </Link>
         . 🚙
 
