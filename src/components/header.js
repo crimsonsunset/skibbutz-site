@@ -24,6 +24,15 @@ let StyledNavbar = styled(props => <Navbar {...props} />)`
   .nav-item {
     text-align: center;
   }
+
+  //.navbar-collapse{
+  //  display: flex;
+  //  justify-content: flex-end;
+  //}
+  //
+  .container{
+    display: contents;
+  }
   
 `
 
