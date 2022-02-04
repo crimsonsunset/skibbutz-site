@@ -32,6 +32,7 @@ const Header = (props) => {
 
   const toggle = () => setIsOpen(!isOpen)
 
+  // todo: fix logo with gatsby img
   return (
     <StyledNavbar color="light" light expand="md">
       <Container>

@@ -1,6 +1,5 @@
 import React from "react"
-import PageTemplate from "@components/pageTemplate"
-import { AuthService } from "gatsby-theme-auth0"
+import PageTemplate from "@components//pageTemplate"
 import { getProfile } from "@util/helpers"
 const store = require("store")
 
@@ -14,7 +13,7 @@ let Profile = () => {
 
       <button onClick={
         (e, i) => {
-          AuthService.logout()
+          // AuthService.logout()
           store.remove('user')
         }
       }>Logout</button>

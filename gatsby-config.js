@@ -70,18 +70,6 @@ module.exports = {
         icon: './src/assets/images/logo.png'
       },
     },
-    {
-      resolve: "gatsby-theme-auth0",
-      options: {
-        domain: process.env.AUTH0_DOMAIN,
-        clientID: process.env.AUTH0_CLIENT_ID,
-        redirectUri: process.env.AUTH0_CALLBACK_URL,
-        // audience: process.env.AUTH0_AUDIENCE, // Optional
-        // responseType: 'token id_token'
-        // scope: 'openid profile email', // Optional
-        // callbackPath: "/auth/callback", // Optional
-      },
-    },
     `gatsby-plugin-image`,
     `gatsby-plugin-sharp`,
     `gatsby-transformer-sharp`,

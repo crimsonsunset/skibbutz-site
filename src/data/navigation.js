@@ -6,9 +6,13 @@ const navigation = [
     "url": "/",
   },
   {
-    "name": "Login",
-    "url": "/login",
+    "name": "Tour",
+    "url": "/tour",
   },
+  // {
+  //   "name": "Login",
+  //   "url": "/login",
+  // },
   // {
   //   "name": "Contact",
   //   "url": "/contact"
