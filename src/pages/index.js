@@ -59,7 +59,7 @@ let Index = () => {
         >
           &nbsp;city near you.
         </Link>
-        . 🚙
+         🚙
 
       </Alert>
 
