@@ -59,11 +59,20 @@
     "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
     "start": "npm run develop",
     "serve": "gatsby serve",
+    "force-package-resolutions": "npx npm-force-resolutions",
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/gatsbyjs/gatsby-starter-default"
+  },
+  "resolutions": {
+    "object-path": ">=0.11.8",
+    "node-fetch": ">=2.6.7",
+    "immer": "9.0.6",
+    "glob-parent": "5.1.2",
+    "tar": "6.1.9",
+    "trim-newlines": "3.0.1"
   },
   "bugs": {
     "url": "https://github.com/gatsbyjs/gatsby/issues"
