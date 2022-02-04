@@ -10,6 +10,7 @@ import Navigation from "reactstrap-json-nav"
 import logo from "@img/logo.png"
 import styled from "styled-components"
 import { getNavigation } from "@data/navigation.js"
+import { mediaQueries } from "@styles/theme"
 
 let StyledNavbar = styled(props => <Navbar {...props} />)`
   position: sticky;
@@ -25,11 +26,14 @@ let StyledNavbar = styled(props => <Navbar {...props} />)`
     text-align: center;
   }
 
-  //.navbar-collapse{
-  //  display: flex;
-  //  justify-content: flex-end;
-  //}
-  //
+  .navbar-collapse{
+    margin-top: 20px;
+    
+    ${mediaQueries[1]}{
+      margin-top: 0px !important;
+    }
+  }
+  
   .container{
     display: contents;
   }
