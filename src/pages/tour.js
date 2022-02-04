@@ -65,10 +65,11 @@ let Tour = () => {
           <Col sm="12" className="p-2">
 
             <iframe
-              src="https://docs.google.com/spreadsheets/d/1swWvf1KaA-LvaLZXJKLgrEaYyTLp5YHMWC2hocSSv9s/edit?usp=sharing?&amp;rm=minimal&amp;single=true&amp;">
+              src="https://docs.google.com/spreadsheets/d/1swWvf1KaA-LvaLZXJKLgrEaYyTLp5YHMWC2hocSSv9s/edit?usp=sharing?&amp;rm=minimal&amp;single=true&amp;"
               frameBorder="0"
               scrolling="no"
               allowFullScreen
+            >
             </iframe>
 
           </Col>
