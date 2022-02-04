@@ -17,9 +17,9 @@ let Tour = () => {
   currTab = (currTab) ? currTab : "map"
 
 
-  useEffect(() => {
-    onTabClicked(currTab)
-  }, [])
+  // useEffect(() => {
+  //   onTabClicked(currTab)
+  // }, [])
 
 
   const [activeTab, setActiveTab] = useState(currTab)
@@ -51,7 +51,6 @@ let Tour = () => {
               scrolling="no"
               allowFullScreen
             >
-
             </iframe>
 
           </Col>
@@ -79,9 +78,10 @@ let Tour = () => {
   }
 
 
-  const onTabClicked = tab => {
+  const onTabClicked = (tab) => {
+    console.log('tab', tab)
     if (activeTab !== tab) setActiveTab(tab)
-    navigate(`/tour?${tab}`)
+    // navigate(`/tour?${tab}`)
   }
 
   return (
