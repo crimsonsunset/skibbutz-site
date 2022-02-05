@@ -1,33 +1,40 @@
-import React, { useEffect, useState } from "react"
-import 'bootstrap/dist/css/bootstrap.min.css';
+import React, { useEffect, useRef, useState } from "react"
+import { delay } from "lodash"
+import "bootstrap/dist/css/bootstrap.min.css"
 import Header from "@components/header"
 import Footer from "@components/footer"
 import SubFooter from "@components/subFooter"
 import { navigate, useLocation } from "@reach/router"
 import { Col, Nav, NavItem, NavLink, Row, TabContent, TabPane } from "reactstrap"
+// import { isBrowser, getWindowVariable } from "@util/helpers"
+// import { useForceUpdate } from "@util/hooks"
 
 let Tour = () => {
 
   // todo: clean up and actually use pagetemplate component
-
   const location = useLocation()
   let [hashMark, ...currTab] = location.hash
   currTab = (currTab) ? currTab : "map"
 
-
-  // useEffect(() => {
-  //   onTabClicked(currTab)
-  // }, [])
-
+  // tabs component when minified is a POS and normal stuff doesnt work
+  useEffect(() => {
+    delay((e, i) => {
+      document.getElementById(`tab-${currTab}`).classList.add("active")
+      document.getElementById(`pane-${currTab}`).classList.add("active")
+    }, 750)
+  }, [])
 
   const [activeTab, setActiveTab] = useState(currTab)
 
   const tabs = {
     "map": {
       title: "Route Map",
+      key: "map",
+      ref: useRef(null),
       content: (
         <Row className="p-2">
-          <Col sm="12" className="p-2">
+          <Col
+            sm="12" className="p-2">
             <iframe
               src="https://maps.roadtrippers.com/embedded/trips/35390825"
               frameBorder="0"
@@ -40,6 +47,8 @@ let Tour = () => {
     },
     "calendar": {
       title: "Tour Stops",
+      key: "calendar",
+      ref: useRef(null),
       content: (
         <Row className="p-2">
           <Col sm="12" className="p-2">
@@ -59,6 +68,8 @@ let Tour = () => {
     // src="https://docs.google.com/spreadsheets/d/1swWvf1KaA-LvaLZXJKLgrEaYyTLp5YHMWC2hocSSv9s/edit?usp=sharing?&amp;rm=minimal&amp;single=true&amp;"
     "groupies": {
       title: "Groupie Schedule",
+      key: "groupies",
+      ref: useRef(null),
       content: (
         <Row className="p-2">
           <Col sm="12" className="p-2">
@@ -84,9 +95,8 @@ let Tour = () => {
 
 
   const onTabClicked = (tab) => {
-    console.log('tab', tab)
-    if (activeTab !== tab) setActiveTab(tab)
-    // navigate(`/tour?${tab}`)
+    setActiveTab(tab)
+    navigate(`/tour#${tab}`)
   }
 
   return (
@@ -97,29 +107,38 @@ let Tour = () => {
           <div className="col-lg-12">
             <Nav tabs>
               {
-                Object.entries(tabs).map((tab) => (
-                  <NavItem key={tab[0]}>
-                    <NavLink
-                      className={activeTab === tab[0] ? "active" : ""}
-                      onClick={() => {
-                        onTabClicked(tab[0])
-                      }}
-                      role="button"
-                    >
-                      {tab[1].title}
-                    </NavLink>
-                  </NavItem>
-                ))
+                Object.entries(tabs).map(([key, tab], ind) => {
+                  return (
+                    <NavItem key={tab.key}>
+                      <NavLink
+                        id={`tab-${tab.key}`}
+                        ref={tabs[tab.key].ref}
+                        className={(activeTab === tab.key) ? "active" : ""}
+                        onClick={() => {
+                          onTabClicked(tab.key)
+                        }}
+                        role="button"
+                      >
+                        {tab.title}
+                      </NavLink>
+                    </NavItem>
+                  )
+                })
               }
             </Nav>
 
             <TabContent
               className={"tab-content"}
-              activeTab={activeTab}>
+              activeTab={activeTab}
+            >
               {
-                Object.entries(tabs).map((tab) => (
-                  <TabPane key={tab[0]} tabId={tab[0]}>
-                    {tab[1].content}
+                Object.entries(tabs).map(([key, tab], ind) => (
+                  <TabPane
+                    activeTab={activeTab}
+                    id={`pane-${tab.key}`}
+                    key={tab.key}
+                    tabId={tab.key}>
+                    {tab.content}
                   </TabPane>
                 ))
               }
@@ -135,12 +154,3 @@ let Tour = () => {
 
 
 export default Tour
-
-
-// <iframe
-//   src="https://www.google.com/maps/d/u/1/embed?mid=1g1Ui3rmjkVyUjY6vUDfAjI0dQNcQwoG5"
-//   frameBorder="0"
-//   allowFullScreen
-// >
-// </iframe>
-
