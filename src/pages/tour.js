@@ -4,7 +4,6 @@ import Header from "@components/header"
 import Footer from "@components/footer"
 import SubFooter from "@components/subFooter"
 import { navigate, useLocation } from "@reach/router"
-import { parse } from "query-string"
 import { Col, Nav, NavItem, NavLink, Row, TabContent, TabPane } from "reactstrap"
 
 let Tour = () => {
@@ -12,14 +11,13 @@ let Tour = () => {
   // todo: clean up and actually use pagetemplate component
 
   const location = useLocation()
-  const searchParams = parse(location.search)
-  let [currTab] = Object.keys(searchParams)
+  let [hashMark, ...currTab] = location.hash
   currTab = (currTab) ? currTab : "map"
 
 
-  useEffect(() => {
-    onTabClicked(currTab)
-  }, [])
+  // useEffect(() => {
+  //   onTabClicked(currTab)
+  // }, [])
 
 
   const [activeTab, setActiveTab] = useState(currTab)
@@ -51,24 +49,31 @@ let Tour = () => {
               scrolling="no"
               allowFullScreen
             >
-
             </iframe>
 
           </Col>
         </Row>
       ),
     },
+    // embedded editable spreadsheet url is
+    // src="https://docs.google.com/spreadsheets/d/1swWvf1KaA-LvaLZXJKLgrEaYyTLp5YHMWC2hocSSv9s/edit?usp=sharing?&amp;rm=minimal&amp;single=true&amp;"
     "groupies": {
       title: "Groupie Schedule",
       content: (
         <Row className="p-2">
           <Col sm="12" className="p-2">
-
+            <h3> Click&nbsp;
+              <a
+                target="_blank"
+                href={"https://docs.google.com/spreadsheets/d/1swWvf1KaA-LvaLZXJKLgrEaYyTLp5YHMWC2hocSSv9s"}>Here</a>
+              &nbsp;to Edit
+            </h3>
             <iframe
-              src="https://docs.google.com/spreadsheets/d/1swWvf1KaA-LvaLZXJKLgrEaYyTLp5YHMWC2hocSSv9s/edit?usp=sharing?&amp;rm=minimal&amp;single=true&amp;">
+              src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRQUUGBUN-ya3MCIgptAjYv_2QXZ5iOuZ3b9B2fVjmyezMq7uiwOeiFgIXjaNvVQSRy-V4I92bRiXRm/pubhtml?gid=0&amp;single=true&amp;widget=true&amp;headers=false"
               frameBorder="0"
               scrolling="no"
               allowFullScreen
+            >
             </iframe>
 
           </Col>
@@ -78,9 +83,10 @@ let Tour = () => {
   }
 
 
-  const onTabClicked = tab => {
+  const onTabClicked = (tab) => {
+    console.log('tab', tab)
     if (activeTab !== tab) setActiveTab(tab)
-    navigate(`/tour?${tab}`)
+    // navigate(`/tour?${tab}`)
   }
 
   return (
@@ -107,7 +113,9 @@ let Tour = () => {
               }
             </Nav>
 
-            <TabContent activeTab={activeTab}>
+            <TabContent
+              className={"tab-content"}
+              activeTab={activeTab}>
               {
                 Object.entries(tabs).map((tab) => (
                   <TabPane key={tab[0]} tabId={tab[0]}>

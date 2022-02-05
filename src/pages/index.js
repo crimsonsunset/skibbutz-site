@@ -57,7 +57,7 @@ let Index = () => {
         <Link
           to="/tour"
         >
-          &nbsp;city near you.
+          &nbsp;city near you.&nbsp;
         </Link>
          🚙
 

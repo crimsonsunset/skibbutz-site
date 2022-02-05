@@ -1,8 +1,9 @@
-require("dotenv").config({
-  path: `.env.${process.env.NODE_ENV}`,
-});
+// require("dotenv").config({
+//   path: `.env.${process.env.NODE_ENV}`,
+// });
 const path = require('path');
 
+console.log(process.env.AUTH0_DOMAIN)
 let facebook_pixel = ''
 let gtm = '1234'
 
