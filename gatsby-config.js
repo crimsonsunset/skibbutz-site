@@ -1,16 +1,16 @@
-// require("dotenv").config({
-//   path: `.env.${process.env.NODE_ENV}`,
-// });
+require("dotenv").config({
+  path: `.env.${process.env.NODE_ENV}`,
+});
 const path = require('path');
 
-console.log(process.env.AUTH0_DOMAIN)
+// console.log(process.env.AUTH0_DOMAIN)
 let facebook_pixel = ''
 let gtm = '1234'
 
 module.exports = {
   siteMetadata: {
     title: `Skibbutz`,
-    description: `Welcome to the Skibbutz! Our lovely home away from home for the 2021 Ski Season! 🎿`,
+    description: `Welcome to the Skibbutz! Our lovely home away from home for the 2021/22 Ski Season! 🎿`,
     author: `Joe Sangiorgio`,
     siteUrl: `https://skibbutz.com/`,
     phone: '1800123456',
