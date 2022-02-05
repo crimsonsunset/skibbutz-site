@@ -6,35 +6,25 @@ import Footer from "@components/footer"
 import SubFooter from "@components/subFooter"
 import { navigate, useLocation } from "@reach/router"
 import { Col, Nav, NavItem, NavLink, Row, TabContent, TabPane } from "reactstrap"
-import { isBrowser, getWindowVariable } from "@util/helpers"
-
-//create your forceUpdate hook
-function useForceUpdate() {
-  const [value, setValue] = useState(0) // integer state
-  return () => setValue(value => value + 1) // update the state to force render
-}
+// import { isBrowser, getWindowVariable } from "@util/helpers"
+// import { useForceUpdate } from "@util/hooks"
 
 let Tour = () => {
 
   // todo: clean up and actually use pagetemplate component
-
-  const forceUpdate = useForceUpdate()
   const location = useLocation()
   let [hashMark, ...currTab] = location.hash
   currTab = (currTab) ? currTab : "map"
 
+  // tabs component when minified is a POS and normal stuff doesnt work
   useEffect(() => {
-    console.log("----in mount", currTab, isBrowser())
-
     delay((e, i) => {
       document.getElementById(`tab-${currTab}`).classList.add("active")
       document.getElementById(`pane-${currTab}`).classList.add("active")
     }, 750)
-
   }, [])
 
   const [activeTab, setActiveTab] = useState(currTab)
-  console.log("rendering", currTab, activeTab)
 
   const tabs = {
     "map": {
@@ -107,7 +97,6 @@ let Tour = () => {
   const onTabClicked = (tab) => {
     setActiveTab(tab)
     navigate(`/tour#${tab}`)
-    forceUpdate()
   }
 
   return (
@@ -165,12 +154,3 @@ let Tour = () => {
 
 
 export default Tour
-
-
-// <iframe
-//   src="https://www.google.com/maps/d/u/1/embed?mid=1g1Ui3rmjkVyUjY6vUDfAjI0dQNcQwoG5"
-//   frameBorder="0"
-//   allowFullScreen
-// >
-// </iframe>
-
