@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import "bootstrap/dist/css/bootstrap.min.css"
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from "@components/header"
 import Footer from "@components/footer"
 import SubFooter from "@components/subFooter"
@@ -15,9 +15,9 @@ let Tour = () => {
   currTab = (currTab) ? currTab : "map"
 
 
-  useEffect(() => {
-    onTabClicked(currTab)
-  }, [])
+  // useEffect(() => {
+  //   onTabClicked(currTab)
+  // }, [])
 
 
   const [activeTab, setActiveTab] = useState(currTab)
@@ -27,8 +27,7 @@ let Tour = () => {
       title: "Route Map",
       content: (
         <Row className="p-2">
-          <Col
-            sm="12" className="p-2">
+          <Col sm="12" className="p-2">
             <iframe
               src="https://maps.roadtrippers.com/embedded/trips/35390825"
               frameBorder="0"
@@ -85,8 +84,9 @@ let Tour = () => {
 
 
   const onTabClicked = (tab) => {
+    console.log('tab', tab)
     if (activeTab !== tab) setActiveTab(tab)
-    navigate(`/tour#${tab}`)
+    // navigate(`/tour?${tab}`)
   }
 
   return (
